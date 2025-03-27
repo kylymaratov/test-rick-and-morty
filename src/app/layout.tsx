@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import './globals.css';
 
-const TopBar = dynamic(() => import('@/components/topbar'), {});
+const TopBar = dynamic(() => import('@/features/topbar'), {});
 const SearchProvider = dynamic(() => import('@/context/search.context'), {});
 
 export const metadata: Metadata = {

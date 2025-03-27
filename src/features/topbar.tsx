@@ -2,15 +2,17 @@
 
 import { useContext, useEffect, useState } from 'react';
 import { IconSearch } from '@tabler/icons-react';
-import ThemeSwitcher from './theme.switcher';
+import ThemeSwitcher from '../components/theme.switcher';
 import httpRequest from '@/api/api';
-import { Character } from '@/types/character.types';
 import { SearchContext } from '@/context/search.context';
 import { SearchResponse } from '@/api/types/response.types';
+import { AxiosError } from 'axios';
+import { Loading } from '@/components/loading';
 
 const TopBar: React.FC = () => {
   const [query, setQuery] = useState<string>('');
   const { setState, state } = useContext(SearchContext);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const getDataByQuery = async () => {
     if (!query.length) {
@@ -22,6 +24,7 @@ const TopBar: React.FC = () => {
         currentPage: 1,
       });
     }
+    setLoading(true);
     try {
       const data = await httpRequest<SearchResponse>(
         `/character?name=${query}&page=1`,
@@ -40,7 +43,14 @@ const TopBar: React.FC = () => {
         searchQuery: query,
         currentPage: 1,
       });
-    } catch (error) {}
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        alert(error.response?.statusText);
+      }
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -50,28 +60,31 @@ const TopBar: React.FC = () => {
   }, [query]);
 
   return (
-    <header className="sticky">
-      <div className="flex items-center justify-between p-1">
-        <div className="w-full sm:w-[30vw] flex justify-start">
-          <span className="text-2xl font-bold">Rick and Morty</span>
-        </div>
-        <div className="w-full sm:w-[30vw] flex justify-center">
-          <div className="bg-white dark:bg-black dark:text-white text-black p-2 rounded-md flex items-center w-full">
-            <IconSearch stroke={3} size={20} />
-            <input
-              id="query"
-              type="text"
-              className="mx-3 w-full bg-transparent border-none outline-none text-md"
-              placeholder="Search the person by name"
-              onChange={(event) => setQuery(event.target.value)}
-            />
+    <>
+      <header className="sticky">
+        <div className="flex items-center justify-between p-1">
+          <div className="w-full sm:w-[30vw] flex justify-start">
+            <span className="text-2xl font-bold">Rick and Morty</span>
+          </div>
+          <div className="w-full sm:w-[30vw] flex justify-center">
+            <div className="bg-gray-500 dark:text-white text-black p-2 rounded-md flex items-center w-full">
+              <IconSearch stroke={3} size={20} />
+              <input
+                id="query"
+                type="text"
+                className="mx-3 w-full bg-transparent border-none outline-none text-md"
+                placeholder="Search the person by name"
+                onChange={(event) => setQuery(event.target.value)}
+              />
+            </div>
+          </div>
+          <div className="w-full sm:w-[30vw] flex justify-end items-center">
+            <ThemeSwitcher />
           </div>
         </div>
-        <div className="w-full sm:w-[30vw] flex justify-end items-center">
-          <ThemeSwitcher />
-        </div>
-      </div>
-    </header>
+      </header>
+      {loading && <Loading />}
+    </>
   );
 };
 

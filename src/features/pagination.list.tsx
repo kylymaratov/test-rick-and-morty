@@ -60,6 +60,7 @@ const PaginationList: React.FC<Props> = ({
               <p className="text-sm">
                 {item.gender} - {item.species}
               </p>
+              <p className="text-sm">{item.location.name}</p>
             </div>
           </div>
         ))}
