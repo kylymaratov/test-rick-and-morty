@@ -32,7 +32,7 @@ const SearchResult: React.FC = () => {
       });
     } catch (error) {
       if (error instanceof AxiosError) {
-        alert(error.response?.statusText);
+        alert(error.response?.data.error);
       }
       console.log(error);
     } finally {
@@ -68,13 +68,13 @@ const SearchResult: React.FC = () => {
             Search result by{' '}
             <span className="font-bold">{state.searchQuery}</span> - just now
           </p>
-        ) : (
+        ) : lastSearchQuery ? (
           <p className="ml-1 text-md">
             Last search result by{' '}
             <span className="font-bold">{lastSearchQuery}</span> in{' '}
             {lastSearchDate}
           </p>
-        )}
+        ) : null}
         <div className="mt-4">
           <PaginationList
             data={

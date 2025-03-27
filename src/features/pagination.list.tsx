@@ -37,6 +37,14 @@ const PaginationList: React.FC<Props> = ({
     }
   };
 
+  if (!data.length) {
+    return (
+      <p className="text-center font-bold">
+        No content, please start the search
+      </p>
+    );
+  }
+
   return (
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">

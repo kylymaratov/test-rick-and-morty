@@ -45,7 +45,7 @@ const TopBar: React.FC = () => {
       });
     } catch (error) {
       if (error instanceof AxiosError) {
-        alert(error.response?.statusText);
+        alert(error.response?.data.error);
       }
       console.log(error);
     } finally {
