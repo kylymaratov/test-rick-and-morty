@@ -1,10 +1,11 @@
 export interface Character {
   id: number;
   name: string;
-  status: 'dead' | 'unknown' | 'alive';
+  status: string;
   species: string;
   type: string;
-  gende: string;
+  gender: string;
+  image: string;
   origin: {
     name: string;
     url: string;

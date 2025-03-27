@@ -1,6 +1,6 @@
 'use client';
 
-import { Character } from '@/types/character-types';
+import { Character } from '@/types/character.types';
 import {
   createContext,
   Dispatch,
@@ -9,25 +9,39 @@ import {
   useState,
 } from 'react';
 
-interface SearchContextTypes {
+interface State {
   searchResult: Character[];
-  setSearchResult: Dispatch<SetStateAction<Character[]>>;
+  totalPages: number;
+  searchQuery: string;
+  currentPage: number;
 }
 
-interface SearchProvderTypes {
+interface SearchContextTypes {
+  state: State;
+  setState: Dispatch<SetStateAction<State>>;
+}
+
+interface SearchProviderTypes {
   children: ReactNode;
 }
 
-export const SearchContext = createContext<SearchContextTypes>({
+const defaultValues: State = {
   searchResult: [],
-  setSearchResult: () => {},
+  totalPages: 0,
+  searchQuery: '',
+  currentPage: 0,
+};
+
+export const SearchContext = createContext<SearchContextTypes>({
+  state: defaultValues,
+  setState: () => {},
 });
 
-const SearchProvider: React.FC<SearchProvderTypes> = ({ children }) => {
-  const [searchResult, setSearchResult] = useState<Character[]>([]);
+const SearchProvider: React.FC<SearchProviderTypes> = ({ children }) => {
+  const [state, setState] = useState<State>(defaultValues);
 
   return (
-    <SearchContext.Provider value={{ searchResult, setSearchResult }}>
+    <SearchContext.Provider value={{ state, setState }}>
       {children}
     </SearchContext.Provider>
   );

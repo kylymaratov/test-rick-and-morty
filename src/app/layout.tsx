@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import './globals.css';
 import dynamic from 'next/dynamic';
+import './globals.css';
 
-const TopBar = dynamic(() => import('@/features/top-bar'), {});
+const TopBar = dynamic(() => import('@/components/topbar'), {});
 const SearchProvider = dynamic(() => import('@/context/search.context'), {});
 
 export const metadata: Metadata = {
@@ -19,7 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <SearchProvider>
-          <main className="p-2 fixed xl:container w-full top-0 left-1/2 transform -translate-x-1/2">
+          <main className="p-2 xl:container w-full mx-auto">
             <TopBar />
             <div id="content">{children}</div>
           </main>

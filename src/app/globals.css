@@ -3,16 +3,24 @@
 :root {
   --background: #e0e0e0;
   --foreground: #171717;
+  --dark-background: #161616;
+  --dark-foreground: #fff;
+
+  --dark-secondary: #242424;
 }
 
 html {
-  --background: #e0e0e0;
-  --foreground: #171717;
+  transition: all ease 0.3s;
 }
 
-html.darkMode {
+html {
   background-color: var(--background);
   color: var(--foreground);
+}
+
+html.dark {
+  background-color: var(--dark-background);
+  color: var(--dark-foreground);
 }
 
 body {
